@@ -3,25 +3,21 @@ import { useState } from 'react';
 const DiaryEditor = () => {
   const [state, setState] = useState({
     author: '',
-    content: '',
+    content: ''
   });
 
+  const handleChangeState = e => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div className="DiaryEditor">
+    <div className='DiaryEditor'>
       <h2>오늘의 일기</h2>
       <div>
-        <input
-          name="author"
-          type="text"
-          value={state.author}
-          onChange={({ target: { value } }) => setState({ ...state, author: value })}
-        />
+        <input name='author' value={state.author} onChange={handleChangeState} />
       </div>
       <div>
-        <textarea
-          value={state.content}
-          onChange={({ target: { value } }) => setState({ ...state, content: value })}
-        />
+        <textarea name='content' value={state.content} onChange={handleChangeState} />
       </div>
     </div>
   );
