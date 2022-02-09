@@ -25,12 +25,19 @@ const Count2View = React.memo(({ count2 }) => {
 });
 
 // re-rendering
-const CountObjView = React.memo(({ obj }) => {
+const CountObjView = ({ obj }) => {
   useEffect(() => {
     console.log(`Update obj : ${obj.count}`);
   });
   return <div>{obj.count}</div>;
-});
+};
+
+// 이전 프롭과 현재 프롭이 같다 return true -> 리 렌더링 X
+// 이전 프롭과 현재 프롭이 다르다 return false -> 리 렌더링 O
+const areEqual = (prevProps, nextProps) => prevProps.obj.count === nextProps.obj.count) 
+
+
+const MemorizedCounterObj = React.memo(CountObjView, areEqual);
 
 const OptimizeTest = () => {
   const [count, setCount] = useState(1);
@@ -57,7 +64,8 @@ const OptimizeTest = () => {
       </div>
       <div>
         <h2>count Obj</h2>
-        <CountObjView obj={obj} />
+        {/* <CountObjView obj={obj} /> */}
+        <MemorizedCounterObj obj={obj} />
         <button
           onClick={() => {
             setObj({ count: obj.count });
