@@ -61,7 +61,6 @@ function App() {
   };
 
   const onRemove = targetId => {
-    console.log(`${targetId}가 삭제됐습니다.`);
     const newDiaryList = data.filter(diary => diary.id !== targetId);
     setData(newDiaryList);
   };
@@ -80,7 +79,7 @@ function App() {
     return { goodCount, badCount, goodRatio };
   }, [data.length]);
 
-  const { goodCount, badCount, goodRatio } = getDiaryAnalysis();
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
 
   return (
     <div className='App'>
