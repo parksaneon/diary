@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 
-const DiaryItem = ({ id, author, content, emotion, created_date, onRemove, onEdit }) => {
+const DiaryItem = ({ id, author, content, emotion, created_date }) => {
+  const { onRemove, onEdit } = useContext(DiaryDispatchContext);
+
   const [isEdit, setIsEdit] = useState(false);
   const [localContent, setLocalContent] = useState(content);
   const localContentInput = useRef();
@@ -49,7 +51,7 @@ const DiaryItem = ({ id, author, content, emotion, created_date, onRemove, onEdi
       {isEdit ? (
         <>
           <button onClick={handleQuitEdit}>수정취소</button>
-          <button onClick={handleEdit}>수정완료</button>
+          <button onClick={handelEdit}>수정완료</button>
         </>
       ) : (
         <>

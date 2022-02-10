@@ -4,7 +4,7 @@ import { DiaryStateContext } from './App';
 import DiaryItem from './DiaryItem';
 import DiaryList from './DiaryList';
 
-const DiaryList = ({ onRemove, onEdit }) => {
+const DiaryList = () => {
   const diaryList = useContext(DiaryStateContext);
 
   return (
@@ -13,7 +13,7 @@ const DiaryList = ({ onRemove, onEdit }) => {
       <h4>{diaryList.length} 개의 일기가 있습니다.</h4>
       <ul>
         {diaryList.map(diary => (
-          <DiaryItem key={diary.id} {...diary} onRemove={onRemove} onEdit={onEdit} />
+          <DiaryItem key={diary.id} {...diary} />
         ))}
       </ul>
     </div>

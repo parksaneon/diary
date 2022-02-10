@@ -56,6 +56,10 @@ function App() {
     dispatch({ type: 'EDIT', targetId, newContent });
   }, []);
 
+  const memoizedDispatches = useMemo(() => {
+    return { onCreate, onRemove, onEdit };
+  }, []);
+
   const getDiaryAnalysis = useMemo(() => {
     console.log('일기 분석 시장');
 
@@ -70,14 +74,16 @@ function App() {
 
   return (
     <DiaryStateContext.Provider value={data}>
-      <div className='App'>
-        <DiaryEditor onCreate={onCreate} />
-        <div>전체 일기 : {data.length}</div>
-        <div>기분 좋은 일기 : {goodCount}</div>
-        <div>기분 나쁜 일기 : {badCount}</div>
-        <div>기분 좋은 일기 비율 : {goodRatio}</div>
-        <DiaryList onRemove={onRemove} onEdit={onEdit} />
-      </div>
+      <DiaryDispatchContext.Provider value={memoizedDispatches}>
+        <div className='App'>
+          <DiaryEditor />
+          <div>전체 일기 : {data.length}</div>
+          <div>기분 좋은 일기 : {goodCount}</div>
+          <div>기분 나쁜 일기 : {badCount}</div>
+          <div>기분 좋은 일기 비율 : {goodRatio}</div>
+          <DiaryList />
+        </div>
+      </DiaryDispatchContext.Provider>
     </DiaryStateContext.Provider>
   );
 }
