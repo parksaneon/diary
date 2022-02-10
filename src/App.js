@@ -3,13 +3,16 @@ import DiaryList from './DiaryList';
 import './App.css';
 import { useRef, useEffect, useMemo, useCallback, useReducer } from 'react';
 
-const reducer = (state, { type, data }) => {
+const reducer = (state, { type, data, targetId, newContent }) => {
   switch (type) {
     case 'INIT':
       return data;
     case 'CREATE':
+      return [{ ...data, created_date: new Date().getTime() }, ...state];
     case 'REMOVE':
+      return state.filter(diary => diary.id !== targetId);
     case 'EDIT':
+      return state.map(diary => (diary.id === targetId ? { ...diary, content: newContent } : diary));
     default:
       return state;
   }
@@ -41,15 +44,14 @@ function App() {
   const onCreate = useCallback(({ author, content, emotion }) => {
     dispatch({ type: 'CREATE', data: { author, content, emotion, id: dataId.current } });
     dataId.current += 1;
-    // setData(data => [newItem, ...data]);
   }, []);
 
   const onRemove = useCallback(targetId => {
-    setData(data.filter(diary => diary.id !== targetId));
+    dispatch({ type: 'REMOVE', targetId });
   }, []);
 
   const onEdit = useCallback((targetId, newContent) => {
-    setData(data.map(diary => (diary.id === targetId ? { ...diary, content: newContent } : diary)));
+    dispatch({ type: 'EDIT', targetId, newContent });
   }, []);
 
   const getDiaryAnalysis = useMemo(() => {
