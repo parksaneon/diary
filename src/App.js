@@ -1,31 +1,7 @@
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
 import './App.css';
-import { useState, useRef, useEffect, useMemo } from 'react';
-
-// const dummyList = [
-//   {
-//     id: 1,
-//     author: '이정환',
-//     content: '하이1',
-//     emotion: 5,
-//     created_date: new Date().getTime()
-//   },
-//   {
-//     id: 2,
-//     author: '이정환',
-//     content: '하이2',
-//     emotion: 5,
-//     created_date: new Date().getTime()
-//   },
-//   {
-//     id: 3,
-//     author: '이정환',
-//     content: '하이3',
-//     emotion: 5,
-//     created_date: new Date().getTime()
-//   }
-// ];
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 
 function App() {
   const [data, setData] = useState([]);
@@ -48,7 +24,7 @@ function App() {
     getData();
   }, []);
 
-  const onCreate = ({ author, content, emotion }) => {
+  const onCreate = useCallback(({ author, content, emotion }) => {
     const newItem = {
       author,
       content,
@@ -57,8 +33,8 @@ function App() {
       id: dataId.current
     };
     dataId.current += 1;
-    setData([newItem, ...data]);
-  };
+    setData(data => [newItem, ...data]);
+  }, []);
 
   const onRemove = targetId => {
     const newDiaryList = data.filter(diary => diary.id !== targetId);
