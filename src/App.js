@@ -36,14 +36,13 @@ function App() {
     setData(data => [newItem, ...data]);
   }, []);
 
-  const onRemove = targetId => {
-    const newDiaryList = data.filter(diary => diary.id !== targetId);
-    setData(newDiaryList);
-  };
+  const onRemove = useCallback(targetId => {
+    setData(data.filter(diary => diary.id !== targetId));
+  }, []);
 
-  const onEdit = (targetId, newContent) => {
+  const onEdit = useCallback((targetId, newContent) => {
     setData(data.map(diary => (diary.id === targetId ? { ...diary, content: newContent } : diary)));
-  };
+  }, []);
 
   const getDiaryAnalysis = useMemo(() => {
     console.log('일기 분석 시장');
