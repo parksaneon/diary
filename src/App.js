@@ -3,9 +3,22 @@ import DiaryList from './DiaryList';
 import './App.css';
 import { useRef, useEffect, useMemo, useCallback, useReducer } from 'react';
 
+const reducer = (state, { type, data }) => {
+  switch (type) {
+    case 'INIT':
+      return data;
+    case 'CREATE':
+    case 'REMOVE':
+    case 'EDIT':
+    default:
+      return state;
+  }
+};
+
 function App() {
   // const [data, setData] = useState([]);
-  const [data, dispatch] = useReducer();
+  const [data, dispatch] = useReducer(reducer, []);
+
   const dataId = useRef(0);
 
   const getData = async () => {
@@ -18,7 +31,7 @@ function App() {
       id: dataId.current++
     }));
 
-    setData(initData);
+    dispatch({ type: 'INIT', data: initData });
   };
 
   useEffect(() => {
@@ -26,15 +39,9 @@ function App() {
   }, []);
 
   const onCreate = useCallback(({ author, content, emotion }) => {
-    const newItem = {
-      author,
-      content,
-      emotion,
-      created_date: new Date().getTime(),
-      id: dataId.current
-    };
+    dispatch({ type: 'CREATE', data: { author, content, emotion, id: dataId.current } });
     dataId.current += 1;
-    setData(data => [newItem, ...data]);
+    // setData(data => [newItem, ...data]);
   }, []);
 
   const onRemove = useCallback(targetId => {
