@@ -19,6 +19,7 @@ const reducer = (state, { type, data, targetId, newContent }) => {
 };
 
 export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
@@ -68,14 +69,14 @@ function App() {
   const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
 
   return (
-    <DiaryStateContext.Provider>
+    <DiaryStateContext.Provider value={data}>
       <div className='App'>
         <DiaryEditor onCreate={onCreate} />
         <div>전체 일기 : {data.length}</div>
         <div>기분 좋은 일기 : {goodCount}</div>
         <div>기분 나쁜 일기 : {badCount}</div>
         <div>기분 좋은 일기 비율 : {goodRatio}</div>
-        <DiaryList diaryList={data} onRemove={onRemove} onEdit={onEdit} />
+        <DiaryList onRemove={onRemove} onEdit={onEdit} />
       </div>
     </DiaryStateContext.Provider>
   );
