@@ -34,8 +34,7 @@ const CountObjView = ({ obj }) => {
 
 // 이전 프롭과 현재 프롭이 같다 return true -> 리 렌더링 X
 // 이전 프롭과 현재 프롭이 다르다 return false -> 리 렌더링 O
-const areEqual = (prevProps, nextProps) => prevProps.obj.count === nextProps.obj.count) 
-
+const areEqual = (prevProps, nextProps) => prevProps.obj.count === nextProps.obj.count;
 
 const MemorizedCounterObj = React.memo(CountObjView, areEqual);
 
